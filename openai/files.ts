@@ -1,13 +1,13 @@
 import fs from "fs";
 import path from "path";
-import { OpenAI, config } from "./base";
+import { OpenAI, baseConfig } from "./base";
 import web3 from "web3";
 
 export default class OpenAIFiles extends OpenAI {
   _running: boolean = true;
 
   async upload(filePath: string) {
-    const url = config.filesUrl();
+    const url = this.config.filesUrl();
     return await this._send_request(url, "post", {
       data: {
         purpose: "answers",
@@ -17,17 +17,17 @@ export default class OpenAIFiles extends OpenAI {
   }
 
   async download(fileId: string) {
-    const url = config.fileUrl(fileId);
+    const url = this.config.fileUrl(fileId);
     return await this._send_request(url, "get");
   }
 
   async delete(fileId: string) {
-    const url = config.fileUrl(fileId);
+    const url = this.config.fileUrl(fileId);
     return await this._send_request(url, "delete");
   }
 
   async remote() {
-    const url = config.filesUrl();
+    const url = this.config.filesUrl();
     return await this._send_request(url, "get");
   }
 

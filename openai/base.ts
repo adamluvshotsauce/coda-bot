@@ -9,7 +9,7 @@ const OPEN_AI_KEY = `${process.env.OPEN_AI_KEY}`
 
 const axios = require("axios");
 
-export const config = {
+export const baseConfig = {
   completionURL(engine:any) {
     return `${OPEN_AI_URL}/engines/${engine}/completions`;
   },
@@ -44,8 +44,8 @@ export const config = {
 
 export class OpenAI {
   _api_key: string = '';
-  config: any = {};
-  constructor(api_key:any=OPEN_AI_KEY, _config:any=config) {
+  config: any = baseConfig;
+  constructor(api_key:any=OPEN_AI_KEY, _config:any=baseConfig) {
     this._api_key = api_key;
   }
 
