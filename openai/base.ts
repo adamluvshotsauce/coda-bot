@@ -5,7 +5,7 @@ const DEFAULT_ENGINE = 'davinci';
 const ORIGIN = 'https://api.openai.com';
 const API_VERSION = 'v1';
 const OPEN_AI_URL = `${ORIGIN}/${API_VERSION}`
-const OPEN_AI_KEY = `${process.env.OPEN_AI_KEY}`
+const OPENAI_API_KEY = `${process.env.OPENAI_API_KEY}`
 
 const axios = require("axios");
 
@@ -45,7 +45,7 @@ export const baseConfig = {
 export class OpenAI {
   _api_key: string = '';
   config: any = baseConfig;
-  constructor(api_key:any=OPEN_AI_KEY, _config:any=baseConfig) {
+  constructor(api_key:any=OPENAI_API_KEY, _config:any=baseConfig) {
     this._api_key = api_key;
   }
 

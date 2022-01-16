@@ -1,7 +1,28 @@
 import { OpenAI, baseConfig } from "./base";
-
+const axios = require("axios");
 export default class OpenAIFineTune extends OpenAI {
   _running: boolean = true;
+
+  async _send_request(url:any, method:any, opts:any = {}) {
+    let camelToUnderscore = (key:any) => {
+      let result = key.replace(/([A-Z])/g, " $1");
+      return result.split(' ').join('_').toLowerCase();
+    }
+
+    const data:any = {};
+    for (const key in opts) {
+      data[camelToUnderscore(key)] = opts[key];
+    }
+
+    return (await axios({
+      url,
+      headers: {
+        'Authorization': `Bearer ${this._api_key}`,
+      },
+      data: Object.keys(data).length ? data : '',
+      method,
+    })).data.data;
+  }
 
   async create(options:any) {
     const url = this.config.filesUrl();
