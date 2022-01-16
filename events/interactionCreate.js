@@ -69,11 +69,15 @@ module.exports = {
 
         const query = interaction.options.getString('code');
         const explain = interaction.options.getString('explain');
+        const complete = interaction.options.getString('complete');
+        const instruct = interaction.options.getString('instruct');
 
         try {
-            const queryAI = async (query) => {
+
+            const queryAI = async (query, engine='davinci-codex') => {
+
                 const gptResponse = await openai.complete({
-                    engine: 'davinci-codex',
+                    engine,
                     prompt: query,
                     maxTokens: 500,
                     temperature: 0.0,
@@ -128,8 +132,13 @@ module.exports = {
                 } else if(explain) {
                     output = await queryAI(explainPreamble + explain);
                     output = `Explain: ${explain}\n${output}`;
+                } else if(complete) {
+                    output = await queryAI(complete, 'davinci');
+                    output = `Complete: ${complete}\n${output}`;
+                } else if(instruct) {
+                    output = await queryAI(instruct, 'davinci-instruct-beta-v3');
+                    output = `Explain: ${instruct}\n${output}`;
                 }
-                
 
                 // edit the deferred reply with the ai response
                 interaction.editReply({ content: output });
