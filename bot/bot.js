@@ -17,13 +17,13 @@ const client = new Client({ intents: [Intents.FLAGS.GUILDS] });
 client.commands = new Collection();
 
 for (const file of commandFiles) {
-    const command = require(`./commands/${file}`);
+    const command = require(`../commands/${file}`);
     // add command into the collection indexed by command name
     client.commands.set(command.data.name, command);
 }
 
 for (const file of eventFiles) {
-    const event = require(`./events/${file}`);
+    const event = require(`../events/${file}`);
     if (event.once) {
         client.once(event.name, (...args) => event.execute(...args));
     } else {
